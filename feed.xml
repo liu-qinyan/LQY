@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>柳卿烟 · 春樱诗稿</title>
+    <link>https://liu-qinyan.github.io/LQY/</link>
+    <description>柳卿烟的个人博客 —— 记录、随笔、技术与二次元的小天地。</description>
+    <language>zh-CN</language>
+    <lastBuildDate>Mon, 14 Sep 2026 03:39:08 +0800</lastBuildDate>
+    <atom:link href="https://liu-qinyan.github.io/LQY/feed.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>建站记：在 GitHub Pages 上安一个家</title>
+      <link>https://liu-qinyan.github.io/LQY/posts/hello-world.html</link>
+      <guid isPermaLink="true">https://liu-qinyan.github.io/LQY/posts/hello-world.html</guid>
+      <pubDate>Mon, 14 Sep 2026 00:00:00 +0800</pubDate>
+      <category>记录</category>
+      <category>建站</category><category>GitHub Pages</category><category>静态博客</category>
+      <description>从零把一个博客钉在一个固定链接上：为什么选静态站，模板参考了谁，以及我在这两天里踩过的坑。</description>
+    </item>
+    <item>
+      <title>Markdown 排版指南：本站支持的全部写法</title>
+      <link>https://liu-qinyan.github.io/LQY/posts/markdown-guide.html</link>
+      <guid isPermaLink="true">https://liu-qinyan.github.io/LQY/posts/markdown-guide.html</guid>
+      <pubDate>Sat, 12 Sep 2026 00:00:00 +0800</pubDate>
+      <category>指南</category>
+      <category>Markdown</category><category>写作</category><category>排版</category>
+      <description>标题、强调、列表、引用、代码、表格、提示框、图片——把这篇当作样式速查表，写文章时对照着用就好。</description>
+    </item>
+    <item>
+      <title>读《雪国》：徒劳之美的余韵</title>
+      <link>https://liu-qinyan.github.io/LQY/posts/snow-country.html</link>
+      <guid isPermaLink="true">https://liu-qinyan.github.io/LQY/posts/snow-country.html</guid>
+      <pubDate>Tue, 08 Sep 2026 00:00:00 +0800</pubDate>
+      <category>随笔</category>
+      <category>读书</category><category>川端康成</category><category>日本文学</category>
+      <description>重读《雪国》。这一次不再被情节牵着走，反而停在那些什么都没发生的句子上。</description>
+    </item>
+    <item>
+      <title>2026 夏番追番小记</title>
+      <link>https://liu-qinyan.github.io/LQY/posts/anime-2026-summer.html</link>
+      <guid isPermaLink="true">https://liu-qinyan.github.io/LQY/posts/anime-2026-summer.html</guid>
+      <pubDate>Thu, 03 Sep 2026 00:00:00 +0800</pubDate>
+      <category>二次元</category>
+      <category>动画</category><category>追番</category><category>随笔</category>
+      <description>这一季挑了四部看，两部喜欢到反复回看，一部中途弃了，还有一部纯粹为了作画。</description>
+    </item>
+    <item>
+      <title>给博客换个颜色：一个变量改主题色</title>
+      <link>https://liu-qinyan.github.io/LQY/posts/theme-hue.html</link>
+      <guid isPermaLink="true">https://liu-qinyan.github.io/LQY/posts/theme-hue.html</guid>
+      <pubDate>Fri, 28 Aug 2026 00:00:00 +0800</pubDate>
+      <category>技术</category>
+      <category>CSS</category><category>设计</category><category>Material 3</category>
+      <description>整站配色只由一个数字推导，改它就能换皮肤。顺便讲讲为什么色调体系比手动调色更省事。</description>
+    </item>
+    <item>
+      <title>秋日散步，与一枚落叶</title>
+      <link>https://liu-qinyan.github.io/LQY/posts/autumn-walk.html</link>
+      <guid isPermaLink="true">https://liu-qinyan.github.io/LQY/posts/autumn-walk.html</guid>
+      <pubDate>Thu, 20 Aug 2026 00:00:00 +0800</pubDate>
+      <category>随笔</category>
+      <category>生活</category><category>摄影</category>
+      <description>傍晚出门走了四十分钟，什么也没想。回来的时候口袋里多了一片叶子。</description>
+    </item>
+  </channel>
+</rss>

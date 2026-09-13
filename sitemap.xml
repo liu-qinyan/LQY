@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://liu-qinyan.github.io/LQY/</loc><changefreq>daily</changefreq><priority>1.0</priority></url>
+  <url><loc>https://liu-qinyan.github.io/LQY/archive.html</loc><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://liu-qinyan.github.io/LQY/tags.html</loc><changefreq>weekly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://liu-qinyan.github.io/LQY/moments.html</loc><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://liu-qinyan.github.io/LQY/friends.html</loc><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://liu-qinyan.github.io/LQY/about.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://liu-qinyan.github.io/LQY/posts/hello-world.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://liu-qinyan.github.io/LQY/posts/markdown-guide.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://liu-qinyan.github.io/LQY/posts/snow-country.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://liu-qinyan.github.io/LQY/posts/anime-2026-summer.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://liu-qinyan.github.io/LQY/posts/theme-hue.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://liu-qinyan.github.io/LQY/posts/autumn-walk.html</loc><changefreq>monthly</changefreq><priority>0.9</priority></url>
+</urlset>
