@@ -1,5 +1,5 @@
 /* ============================================================
-   柳卿烟 · 个人博客  ——  交互脚本
+   柳卿烟 · 个人博客  ——  交互脚本（koharu / Shoka 风格）
    原生 JS，零依赖。所有功能均为渐进增强：
    脚本失效时页面依然可正常阅读与导航。
    ============================================================ */
@@ -8,9 +8,7 @@
 
   var root = document.documentElement;
   var LS = {
-    theme: "lqy-theme",
-    hue: "lqy-hue",
-    texture: "lqy-texture"
+    theme: "lqy-theme"
   };
 
   function store(key, val) {
@@ -23,139 +21,85 @@
     try { return localStorage.getItem(key); } catch (e) { return null; }
   }
 
-  /* ---------- 1. 主题切换（浅色 / 深色 / 跟随系统） ---------- */
-
-  var THEMES = ["light", "dark", "system"];
-  var ICONS = {
-    light: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 17a5 5 0 1 1 0-10 5 5 0 0 1 0 10Zm0-13a1 1 0 0 1 1 1v1.5a1 1 0 1 1-2 0V5a1 1 0 0 1 1-1Zm0 14a1 1 0 0 1 1 1V20a1 1 0 1 1-2 0v-1a1 1 0 0 1 1-1ZM4 12a1 1 0 0 1 1-1h1.5a1 1 0 1 1 0 2H5a1 1 0 0 1-1-1Zm13.5 0a1 1 0 0 1 1-1H20a1 1 0 1 1 0 2h-1.5a1 1 0 0 1-1-1ZM6.34 6.34a1 1 0 0 1 1.41 0l1.06 1.06a1 1 0 1 1-1.41 1.41L6.34 7.76a1 1 0 0 1 0-1.42Zm9.9 9.9a1 1 0 0 1 1.42 0l1.06 1.06a1 1 0 1 1-1.41 1.41l-1.07-1.06a1 1 0 0 1 0-1.41Zm2.48-9.9a1 1 0 0 1 0 1.42l-1.06 1.06a1 1 0 1 1-1.41-1.41l1.06-1.07a1 1 0 0 1 1.41 0Zm-9.9 9.9a1 1 0 0 1 0 1.41L7.76 18.7a1 1 0 0 1-1.42-1.41l1.07-1.06a1 1 0 0 1 1.41 0Z"/></svg>',
-    dark: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.3 3a1 1 0 0 1 .35 1.06 6.5 6.5 0 0 0 7.3 8.06 1 1 0 0 1 1.13 1.4A9 9 0 1 1 11.4 2.9a1 1 0 0 1 .9.1Z"/></svg>',
-    system: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1h-6v2h3a1 1 0 1 1 0 2H7a1 1 0 1 1 0-2h3v-2H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Zm1 2v8h14V7H5Z"/></svg>'
-  };
-  var LABELS = { light: "浅色模式", dark: "深色模式", system: "跟随系统" };
+  /* ---------- 1. 主题切换（浅色 / 深色二态 + View Transition 圆形扩散） ---------- */
 
   function currentTheme() {
-    var s = read(LS.theme);
-    return THEMES.indexOf(s) >= 0 ? s : "dark";
+    return read(LS.theme) === "dark" ? "dark" : "light";
   }
-  function resolvedTheme(pref) {
-    if (pref !== "system") return pref;
+  function resolvedTheme() {
+    var saved = read(LS.theme);
+    if (saved === "dark" || saved === "light") return saved;
     return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
   }
-  function paintThemeBtn() {
-    var btn = document.getElementById("theme-toggle");
-    if (!btn) return;
-    var pref = currentTheme();
-    btn.innerHTML = ICONS[pref];
-    var title = LABELS[pref] + "（点击切换）";
-    btn.title = title;
-    btn.setAttribute("aria-label", title);
+  function applyTheme(mode) {
+    root.setAttribute("data-theme", mode);
+    store(LS.theme, mode === "dark" ? "dark" : "light");
   }
-  function applyTheme(pref) {
-    root.setAttribute("data-theme", resolvedTheme(pref));
-    if (pref === "system") store(LS.theme, null);
-    else store(LS.theme, pref);
-    paintThemeBtn();
+
+  // 初始化：NOFLASH 已在 <head> 设置了 data-theme，这里只补 no-JS 情况
+  if (!root.getAttribute("data-theme")) {
+    root.setAttribute("data-theme", resolvedTheme());
   }
 
   var themeBtn = document.getElementById("theme-toggle");
   if (themeBtn) {
-    paintThemeBtn();
-    themeBtn.addEventListener("click", function () {
-      var next = THEMES[(THEMES.indexOf(currentTheme()) + 1) % THEMES.length];
-      applyTheme(next);
+    themeBtn.addEventListener("click", function (e) {
+      var next = currentTheme() === "dark" ? "light" : "dark";
+      var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      // View Transitions：从点击位置圆形扩散（koharu 的标志性切换动画）
+      if (!document.startViewTransition || reduce) {
+        applyTheme(next);
+        return;
+      }
+      var x = e.clientX || window.innerWidth / 2;
+      var y = e.clientY || 0;
+      var vt = document.startViewTransition(function () { applyTheme(next); });
+      vt.ready.then(function () {
+        var radius = Math.hypot(
+          Math.max(x, window.innerWidth - x),
+          Math.max(y, window.innerHeight - y)
+        );
+        document.documentElement.animate(
+          {
+            clipPath: [
+              "circle(0px at " + x + "px " + y + "px)",
+              "circle(" + radius + "px at " + x + "px " + y + "px)"
+            ]
+          },
+          {
+            duration: 480,
+            easing: "cubic-bezier(0.4, 0, 0.2, 1)",
+            pseudoElement: "::view-transition-new(root)"
+          }
+        );
+      }).catch(function () { /* 动画失败不影响切换 */ });
     });
   }
 
   window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function () {
-    if (currentTheme() === "system") {
-      root.setAttribute("data-theme", resolvedTheme("system"));
+    if (!read(LS.theme)) {
+      root.setAttribute("data-theme", resolvedTheme());
     }
   });
 
-  /* ---------- 2. 色相（主题色）切换 ---------- */
+  /* ---------- 2. 顶栏吸顶 + 阅读进度 ---------- */
 
-  var HUES = [
-    { v: 252, name: "靛蓝" },
-    { v: 315, name: "樱粉" },
-    { v: 350, name: "绯红" },
-    { v: 30, name: "暖橘" },
-    { v: 160, name: "薄荷" },
-    { v: 205, name: "青空" },
-    { v: 265, name: "紫罗兰" }
-  ];
-
-  var savedHue = read(LS.hue);
-  if (savedHue) root.style.setProperty("--h", savedHue);
-
-  var huePop = document.getElementById("hue-popover");
-  var hueBtn = document.getElementById("hue-toggle");
-  if (huePop) {
-    huePop.innerHTML = HUES.map(function (h) {
-      return '<button type="button" class="hue-chip" data-hue="' + h.v + '" title="' + h.name + '">' +
-        '<span class="hue-chip__dot" style="background:hsl(' + h.v + ' 62% 52%)"></span>' + h.name + "</button>";
-    }).join("");
-    huePop.addEventListener("click", function (e) {
-      var b = e.target.closest(".hue-chip");
-      if (!b) return;
-      var v = b.getAttribute("data-hue");
-      root.style.setProperty("--h", v);
-      store(LS.hue, v);
-      huePop.classList.remove("is-open");
-      if (hueBtn) hueBtn.setAttribute("aria-expanded", "false");
-    });
-  }
-  if (hueBtn && huePop) {
-    hueBtn.addEventListener("click", function (e) {
-      e.stopPropagation();
-      var open = huePop.classList.toggle("is-open");
-      hueBtn.setAttribute("aria-expanded", open ? "true" : "false");
-    });
-    document.addEventListener("click", function (e) {
-      if (!huePop.contains(e.target) && e.target !== hueBtn) {
-        huePop.classList.remove("is-open");
-        hueBtn.setAttribute("aria-expanded", "false");
-      }
-    });
-  }
-
-  /* ---------- 3. 纹理开关 ---------- */
-
-  if (read(LS.texture) === "off") root.setAttribute("data-texture", "off");
-  var texBtn = document.getElementById("texture-toggle");
-  if (texBtn) {
-    var syncTex = function () {
-      var off = root.getAttribute("data-texture") === "off";
-      texBtn.setAttribute("aria-pressed", off ? "false" : "true");
-      texBtn.title = off ? "开启背景纹理" : "关闭背景纹理";
-    };
-    syncTex();
-    texBtn.addEventListener("click", function () {
-      var off = root.getAttribute("data-texture") === "off";
-      if (off) {
-        root.removeAttribute("data-texture");
-        store(LS.texture, null);
-      } else {
-        root.setAttribute("data-texture", "off");
-        store(LS.texture, "off");
-      }
-      syncTex();
-    });
-  }
-
-  /* ---------- 4. 顶栏吸顶 + 阅读进度 ---------- */
-
-  var navbar = document.getElementById("navbar");
+  var header = document.getElementById("site-header");
   var progress = document.getElementById("scroll-progress");
   var toTop = document.getElementById("to-top");
 
   function onScroll() {
     var y = window.scrollY || window.pageYOffset;
-    if (navbar) navbar.classList.toggle("is-stuck", y > 24);
+    if (header) {
+      if (y > 24) header.setAttribute("data-scrolled", "");
+      else header.removeAttribute("data-scrolled");
+    }
     if (progress) {
       var max = document.documentElement.scrollHeight - window.innerHeight;
       progress.style.width = (max > 0 ? Math.min(100, (y / max) * 100) : 0) + "%";
     }
-    if (toTop) toTop.classList.toggle("is-shown", y > 420);
+    if (toTop) toTop.classList.toggle("is-visible", y > 420);
   }
   window.addEventListener("scroll", onScroll, { passive: true });
   onScroll();
@@ -166,34 +110,44 @@
     });
   }
 
-  /* ---------- 5. 首屏打字机 ---------- */
+  /* ---------- 3. 复制链接（cover 按钮 + 文章页按钮） ---------- */
 
-  var typer = document.getElementById("banner-typer");
-  if (typer) {
-    var lines = (typer.getAttribute("data-lines") || "").split("|").filter(Boolean);
-    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (lines.length && !reduce) {
-      var li = 0, ci = 0, del = false;
-      var tick = function () {
-        var cur = lines[li];
-        if (!del) {
-          ci++;
-          typer.textContent = cur.slice(0, ci);
-          if (ci >= cur.length) { del = true; return setTimeout(tick, 2200); }
-        } else {
-          ci--;
-          typer.textContent = cur.slice(0, ci);
-          if (ci <= 0) { del = false; li = (li + 1) % lines.length; return setTimeout(tick, 320); }
-        }
-        setTimeout(tick, del ? 34 : 92);
+  function bindCopy(btn, getText, okLabel, failLabel) {
+    if (!btn || btn.dataset.copyReady) return;
+    btn.dataset.copyReady = "true";
+    btn.addEventListener("click", function () {
+      var value = getText();
+      var done = function () {
+        var live = btn.querySelector('[aria-live]');
+        if (live) live.textContent = okLabel;
+        btn.title = okLabel;
+        setTimeout(function () {
+          if (live) live.textContent = "";
+          btn.title = failLabel;
+        }, 1800);
       };
-      setTimeout(tick, 700);
-    } else {
-      typer.textContent = lines[0] || "";
-    }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(value).then(done, function () {
+          window.prompt(failLabel, value);
+        });
+      } else {
+        window.prompt(failLabel, value);
+      }
+    });
   }
 
-  /* ---------- 6. 图片灯箱 ---------- */
+  document.querySelectorAll(".cover-copy-link").forEach(function (btn) {
+    bindCopy(btn, function () { return window.location.href; },
+      btn.dataset.copiedLabel || "已复制", btn.dataset.copyLabel || "复制页面链接");
+  });
+
+  var copyLink = document.getElementById("copy-link");
+  if (copyLink) {
+    bindCopy(copyLink, function () { return copyLink.dataset.url || window.location.href; },
+      "已复制", "复制链接");
+  }
+
+  /* ---------- 4. 图片灯箱 ---------- */
 
   var lightbox = document.getElementById("lightbox");
   if (lightbox) {
@@ -217,7 +171,7 @@
     });
   }
 
-  /* ---------- 7. 文章目录高亮 ---------- */
+  /* ---------- 5. 文章目录高亮 ---------- */
 
   var tocLinks = Array.prototype.slice.call(document.querySelectorAll(".toc a[href^='#']"));
   if (tocLinks.length) {
@@ -238,7 +192,7 @@
     spy();
   }
 
-  /* ---------- 8. 搜索（本地索引 + 键盘操作） ---------- */
+  /* ---------- 6. 搜索（本地索引 + 键盘操作） ---------- */
 
   var overlay = document.getElementById("search-overlay");
   var input = document.getElementById("search-input");
@@ -275,7 +229,7 @@
     var safe = escapeHtml(text);
     if (!q) return safe;
     var re = new RegExp("(" + q.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + ")", "gi");
-    return safe.replace(re, "<em>$1</em>");
+    return safe.replace(re, "<mark>$1</mark>");
   }
 
   function render(q) {
@@ -357,7 +311,7 @@
     }
   });
 
-  /* ---------- 9. 标签 / 分类筛选 ---------- */
+  /* ---------- 7. 标签 / 分类筛选 ---------- */
 
   function readParam(name) {
     var m = new RegExp("[?&]" + name + "=([^&#]*)").exec(window.location.search);
@@ -388,13 +342,10 @@
       }
       note.hidden = false;
     }
-    document.querySelectorAll(".m3-chip--tonal").forEach(function (c) {
-      c.classList.toggle("m3-chip--active", c.getAttribute("data-filter-key") === key);
-    });
   }
   applyFilter();
 
-  /* ---------- 11. 评论（giscus）主题联动 ---------- */
+  /* ---------- 8. 评论（giscus）主题联动 ---------- */
 
   function giscusTheme() {
     return root.getAttribute("data-theme") === "dark" ? "dark" : "light";
@@ -414,101 +365,22 @@
     setTimeout(syncGiscus, 3200);
   });
 
-  /* ---------- 12. 樱花飘落 ---------- */
+  /* ---------- 9. 进场动画（reveal） ---------- */
 
-  (function () {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    var cv = document.createElement("canvas");
-    cv.id = "sakura-canvas";
-    cv.setAttribute("aria-hidden", "true");
-    document.body.appendChild(cv);
-    var ctx = cv.getContext("2d");
-    if (!ctx) return;
-    var W = 0, H = 0, petals = [], tick = 0, hue = 315;
-
-    function resize() {
-      W = cv.width = window.innerWidth;
-      H = cv.height = window.innerHeight;
-    }
-    resize();
-    window.addEventListener("resize", resize);
-
-    function Petal(init) { this.reset(init); }
-    Petal.prototype.reset = function (init) {
-      this.x = Math.random() * W;
-      this.y = init ? Math.random() * H : -24;
-      this.s = 4.5 + Math.random() * 7;
-      this.vy = 0.35 + Math.random() * 0.85;
-      this.vx = -0.35 + Math.random() * 0.7;
-      this.ph = Math.random() * Math.PI * 2;
-      this.rot = Math.random() * Math.PI * 2;
-      this.vr = (-0.5 + Math.random()) * 0.02;
-      this.o = 0.28 + Math.random() * 0.38;
-    };
-    var N = Math.min(16, Math.max(7, Math.round(window.innerWidth / 100)));
-    for (var i = 0; i < N; i++) petals.push(new Petal(true));
-
-    function readHue() {
-      var v = parseInt(getComputedStyle(document.documentElement)
-        .getPropertyValue("--h"), 10);
-      if (!isNaN(v)) hue = v;
-    }
-    readHue();
-
-    var running = true;
-    window.addEventListener("beforeprint", function () { running = false; });
-    window.addEventListener("afterprint", function () { running = true; });
-    document.addEventListener("visibilitychange", function () {
-      running = !document.hidden;
-    });
-
-    function frame() {
-      requestAnimationFrame(frame);
-      if (!running) return;
-      tick++;
-      if (tick % 90 === 0) readHue();
-      ctx.clearRect(0, 0, W, H);
-      for (var i = 0; i < petals.length; i++) {
-        var p = petals[i];
-        p.ph += 0.02;
-        p.rot += p.vr;
-        p.x += p.vx + Math.sin(p.ph) * 0.55;
-        p.y += p.vy;
-        if (p.y > H + 24 || p.x < -32 || p.x > W + 32) p.reset(false);
-        ctx.save();
-        ctx.translate(p.x, p.y);
-        ctx.rotate(p.rot);
-        ctx.globalAlpha = p.o;
-        ctx.fillStyle = "hsl(" + hue + " 78% 80%)";
-        ctx.beginPath();
-        ctx.ellipse(0, 0, p.s, p.s * 0.6, 0, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.restore();
-      }
-    }
-    requestAnimationFrame(frame);
-  })();
-
-  /* ---------- 13. 首页章节导航高亮 ---------- */
-
-  var rail = document.querySelector(".home-rail");
-  if (rail && "IntersectionObserver" in window) {
-    var railLinks = rail.querySelectorAll("[data-rail]");
-    var sections = [];
-    railLinks.forEach(function (a) {
-      var target = document.querySelector(a.getAttribute("href"));
-      if (target) sections.push({ el: target, link: a });
-    });
-    var spy = new IntersectionObserver(function (entries) {
+  var revealEls = document.querySelectorAll(".reveal");
+  if (revealEls.length && "IntersectionObserver" in window &&
+      !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    var ro = new IntersectionObserver(function (entries) {
       entries.forEach(function (en) {
-        if (!en.isIntersecting) return;
-        railLinks.forEach(function (a) { a.classList.remove("is-active"); });
-        sections.forEach(function (s) {
-          if (s.el === en.target) s.link.classList.add("is-active");
-        });
+        if (en.isIntersecting) {
+          en.target.classList.add("is-shown");
+          ro.unobserve(en.target);
+        }
       });
-    }, { rootMargin: "-40% 0px -55% 0px" });
-    sections.forEach(function (s) { spy.observe(s.el); });
+    }, { rootMargin: "0px 0px -8% 0px", threshold: 0.05 });
+    revealEls.forEach(function (el) { ro.observe(el); });
+  } else {
+    revealEls.forEach(function (el) { el.classList.add("is-shown"); });
   }
 
   /* ---------- 10. 页脚年份 ---------- */

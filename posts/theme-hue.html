@@ -6,8 +6,8 @@
 <title>给博客换个颜色：一个变量改主题色 · 柳卿烟</title>
 <meta name="description" content="整站配色只由一个数字推导，改它就能换皮肤。顺便讲讲为什么色调体系比手动调色更省事。">
 <meta name="author" content="柳卿烟">
-<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#1a1619" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#fdfbfb" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#21252b" media="(prefers-color-scheme: dark)">
 <link rel="canonical" href="https://liu-qinyan.github.io/LQY/posts/theme-hue.html">
 <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
 <link rel="alternate" type="application/rss+xml" title="柳卿烟" href="../feed.xml">
@@ -20,116 +20,84 @@
 <meta property="og:image" content="https://liu-qinyan.github.io/LQY/assets/img/hero.jpg">
 <meta name="twitter:card" content="summary_large_image">
 
-<script>(function(){try{var r=document.documentElement;var s=localStorage.getItem('lqy-theme')||'dark';
+<script>(function(){try{var r=document.documentElement;var s=localStorage.getItem('lqy-theme')||'light';
 var d=window.matchMedia('(prefers-color-scheme: dark)').matches;
-r.setAttribute('data-theme',s==='system'?(d?'dark':'light'):s);
-var h=localStorage.getItem('lqy-hue');if(h)r.style.setProperty('--h',h);
-if(localStorage.getItem('lqy-texture')==='off')r.setAttribute('data-texture','off');}catch(e){}})();</script>
+r.setAttribute('data-theme',s==='system'?(d?'dark':'light'):s);}catch(e){}})();</script>
 </head>
 <body>
 <a class="skip-link" href="#main">跳到正文</a>
-<div id="texture-canvas" aria-hidden="true"></div>
-<header class="navbar" id="navbar">
-  <div class="navbar__inner">
-    <a class="navbar__brand" href="../index.html">
-      <span class="navbar__logo" aria-hidden="true">柳</span>
-      <span>柳卿烟</span>
+<div class="site-header" id="site-header">
+  <div class="site-header__inner">
+    <a class="site-header__logo" href="../index.html" aria-label="回到首页">
+      <img src="../assets/img/avatar.jpg" alt="" width="64" height="64">
+      <span class="shadow-text">柳卿烟</span>
     </a>
-    <nav class="navbar__links" aria-label="主导航">
-      <a class="navbar__link" href="../index.html">首页</a><a class="navbar__link" href="../archive.html">归档</a><a class="navbar__link" href="../tags.html">标签</a><a class="navbar__link" href="../moments.html">瞬间</a><a class="navbar__link" href="../friends.html">友链</a><a class="navbar__link" href="../about.html">关于</a>
+    <nav class="site-nav" aria-label="主导航">
+      <a href="../index.html">首页</a><a href="../archive.html">归档</a><a href="../tags.html">标签</a><a href="../moments.html">瞬间</a><a href="../friends.html">友链</a><a href="../about.html">关于</a>
     </nav>
-    <div class="navbar__actions">
+    <div class="site-header__actions">
       <button class="icon-btn" type="button" data-search-open aria-label="搜索（快捷键 /）" title="搜索（快捷键 /）"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 1 0-.7.7l.27.28v.79l5 4.99L20.49 19l-4.99-5Zm-6 0A4.5 4.5 0 1 1 14 9.5 4.5 4.5 0 0 1 9.5 14Z"/></svg></button>
-      <div class="hue-wrap">
-        <button class="icon-btn" type="button" id="hue-toggle" aria-expanded="false" aria-controls="hue-popover" aria-label="切换主题色" title="切换主题色"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 3a9 9 0 0 0 0 18c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16a5 5 0 0 0 5-5c0-4.42-4.03-8-9-8Zm-5.5 9a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm3-4a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm3.5 4a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Z"/></svg></button>
-        <div class="hue-popover" id="hue-popover" role="group" aria-label="主题色选择"></div>
-      </div>
-      <button class="icon-btn" type="button" id="texture-toggle" aria-pressed="true" aria-label="背景纹理开关"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21 12 17.27 18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2Z"/></svg></button>
-      <button class="icon-btn" type="button" id="theme-toggle" aria-label="切换深浅色"></button>
+      <button class="icon-btn" type="button" id="theme-toggle" aria-label="切换深浅色" title="切换深浅色">
+        <span class="theme-icon" aria-hidden="true"><svg viewBox="0 0 24 24" aria-hidden="true" class="theme-icon--sun" fill="currentColor"><path d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10Zm0-5 1.5 3.2a8.6 8.6 0 0 0-3 0L12 2Zm0 20-1.5-3.2a8.6 8.6 0 0 0 3 0L12 22Zm10-10-3.2 1.5a8.6 8.6 0 0 0 0-3L22 12ZM2 12l3.2-1.5a8.6 8.6 0 0 0 0 3L2 12Zm16.3-7-2.2 2.7a8.6 8.6 0 0 1 2.2 2.2L21 7.7 18.3 5ZM5.7 19l2.2-2.7a8.6 8.6 0 0 1-2.2-2.2L3 16.3 5.7 19Zm13.6.9L21 17l-2.7-2.2a8.6 8.6 0 0 1-2.2 2.2l3.2 2.9ZM4.4 4.7 7.1 7a8.6 8.6 0 0 0-2.2 2.2L2 6.9l2.4-2.2Z" transform="scale(.88) translate(1.6 1.6)"/></svg><svg viewBox="0 0 24 24" aria-hidden="true" class="theme-icon--moon" fill="currentColor"><path d="M20.7 15.1A8.5 8.5 0 0 1 8.9 3.3 8.5 8.5 0 1 0 20.7 15.1Z"/></svg></span>
+      </button>
     </div>
   </div>
   <div id="scroll-progress" aria-hidden="true"></div>
-</header>
-<section class="banner banner--compact">
-  <div class="banner__media">
-    <img class="banner__image" src="../assets/img/hero.jpg" alt="" fetchpriority="high" decoding="async">
+</div>
+<section class="cover cover--compact">
+  <img class="cover__img" src="../assets/img/hero.jpg" alt="" fetchpriority="high" decoding="async">
+  <div class="cover__scrim" aria-hidden="true"></div>
+  <div class="cover__copy">
+    <h1 class="cover__title shadow-text">给博客换个颜色：一个变量改主题色<button type="button" class="cover-copy-link" aria-label="复制页面链接" title="复制页面链接"
+      data-copy-label="复制页面链接" data-copied-label="已复制"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7ZM19 19H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7h-2v7Z"/></svg><span class="sr-only" aria-live="polite"></span></button></h1>
+  <p class="cover__meta shadow-text"><span><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M7 2v2H5a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2V2h-2v2H9V2H7Zm12 8v9H5v-9h14Z"/></svg>发布于 2026 年 8 月28 日</span><span><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25ZM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83Z"/></svg> 1040 字</span><span><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm1 11h-4v-2h2V7h2Z"/></svg>约 5 分钟</span></p>
   </div>
-  <div class="banner__scrim" aria-hidden="true"></div>
-  <div class="banner__copy">
-    <span class="banner__eyebrow">技术</span>
-    <div class="banner__title" style="font-size:clamp(1.6rem,4.4vw,2.6rem)">给博客换个颜色：一个变量改主题色</div>
-    <p class="banner__subtitle">整站配色只由一个数字推导，改它就能换皮肤。顺便讲讲为什么色调体系比手动调色更省事。</p>
-  </div>
-  <div class="banner__waves" aria-hidden="true">
-    <svg class="wave wave--far" viewBox="0 0 1200 120" preserveAspectRatio="none"><path fill="var(--surface)" d="M0,60 C150,110 350,10 600,60 C850,110 1050,10 1200,60 L1200,120 L0,120 Z"/></svg>
-    <svg class="wave wave--near" viewBox="0 0 1200 120" preserveAspectRatio="none"><path fill="var(--surface)" d="M0,80 C200,30 400,110 600,70 C800,30 1000,110 1200,70 L1200,120 L0,120 Z" opacity=".7"/></svg>
-  </div>
+  <div class="wave-wrap" aria-hidden="true">
+  <svg class="wave" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+       viewBox="0 24 150 28" preserveAspectRatio="none" focusable="false">
+    <defs>
+      <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"/>
+    </defs>
+    <g class="parallax">
+      <use href="#gentle-wave" x="48" y="0"/>
+      <use href="#gentle-wave" x="48" y="3"/>
+      <use href="#gentle-wave" x="48" y="5"/>
+    </g>
+  </svg>
+</div>
 </section>
-<div class="shell">
-  <div class="layout layout--with-aside">
-    <aside class="layout__sidebar layout__sidebar--overlap" aria-label="侧边栏">
-  <div class="m3-card m3-card--outlined profile">
-    <a class="profile__avatar" href="../about.html" aria-label="关于我">
-      <img src="../assets/img/avatar.jpg" alt="柳卿烟的头像" width="420" height="420">
-    </a>
-    <div class="profile__name">柳卿烟</div>
-    <div class="profile__handle">@liu-qinyan</div>
-    <p class="profile__bio">记录、随笔、技术与二次元的小天地。</p>
-    <div class="profile__stats">
-      <div class="profile__stat"><b>6</b><span>文章</span></div>
-      <div class="profile__stat"><b>5</b><span>分类</span></div>
-      <div class="profile__stat"><b>17</b><span>标签</span></div>
-    </div>
-    <div class="profile__links">
-      <a class="m3-button m3-button--tonal" href="../about.html"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25ZM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83Z"/></svg>关于我</a>
-      <a class="m3-button m3-button--icon" href="https://github.com/liu-qinyan" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 2A10 10 0 0 0 8.84 21.5c.5.08.66-.23.66-.5v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.53 2.35 1.09 2.92.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.16.59.67.5A10 10 0 0 0 12 2Z"/></svg></a>
-      <a class="m3-button m3-button--icon" href="mailto:629193513@qq.com" aria-label="邮箱" title="邮箱"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Zm0 4-8 5-8-5V6l8 5 8-5v2Z"/></svg></a>
-      <a class="m3-button m3-button--icon" href="../feed.xml" aria-label="RSS 订阅" title="RSS 订阅"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M6.18 15.64a2.18 2.18 0 1 1 0 4.36 2.18 2.18 0 0 1 0-4.36ZM4 4.44A15.56 15.56 0 0 1 19.56 20h-2.83A12.73 12.73 0 0 0 4 7.27V4.44Zm0 5.66a9.9 9.9 0 0 1 9.9 9.9h-2.83A7.07 7.07 0 0 0 4 12.93V10.1Z"/></svg></a>
-    </div>
+<div class="twocol">
+  <div class="sider">
+    <aside class="home-info" aria-label="博主信息">
+  <a href="../about.html" aria-label="关于我">
+    <img class="home-info__avatar" src="../assets/img/avatar.jpg" alt="柳卿烟的头像" width="420" height="420">
+  </a>
+  <p class="home-info__name">柳卿烟</p>
+  <p class="home-info__desc">记录、随笔、技术与二次元的小天地</p>
+  <div class="social-row">
+    <a href="https://github.com/liu-qinyan" target="_blank" rel="noopener" aria-label="GitHub" title="GitHub"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 2A10 10 0 0 0 8.84 21.5c.5.08.66-.23.66-.5v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.53 2.35 1.09 2.92.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.16.59.67.5A10 10 0 0 0 12 2Z"/></svg></a>
+    <a href="mailto:629193513@qq.com" aria-label="邮箱" title="邮箱"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Zm0 4-8 5-8-5V6l8 5 8-5v2Z"/></svg></a>
+    <a href="../feed.xml" aria-label="RSS 订阅" title="RSS 订阅"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M6.18 15.64a2.18 2.18 0 1 1 0 4.36 2.18 2.18 0 0 1 0-4.36ZM4 4.44A15.56 15.56 0 0 1 19.56 20h-2.83A12.73 12.73 0 0 0 4 7.27V4.44Zm0 5.66a9.9 9.9 0 0 1 9.9 9.9h-2.83A7.07 7.07 0 0 0 4 12.93V10.1Z"/></svg></a>
   </div>
-
-  <div class="m3-card m3-card--outlined announce">
-    <div class="widget__head"><span class="accent-bar"></span>公告</div>
-    <div class="announce__body">
-      <span class="announce__icon"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M20 4v12h-2V4h2Zm-4 1.5v9A1.5 1.5 0 0 1 14.5 16H9.9l-4.4 3.2A1 1 0 0 1 4 18.4V15H3.5A1.5 1.5 0 0 1 2 13.5v-4A1.5 1.5 0 0 1 3.5 8H14.5A1.5 1.5 0 0 1 16 9.5Z"/></svg></span>
-      <div>
-        本站刚刚上线，文章会陆续搬进来。<br>
-        顶栏可以切换深浅色和主题色，随意试试。
-      </div>
-    </div>
-    <div class="announce__actions">
-      <a class="m3-button m3-button--text" href="../posts/hello-world.html">看看建站记<svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M9.29 6.71a1 1 0 0 0 0 1.41L13.17 12l-3.88 3.88a1 1 0 1 0 1.42 1.41l4.58-4.58a1 1 0 0 0 0-1.42L10.7 6.71a1 1 0 0 0-1.41 0Z"/></svg></a>
-    </div>
+  <div class="stats-row">
+    <a href="../archive.html"><b>6</b>文章</a>
+    <span class="stats-row__divider" aria-hidden="true"></span>
+    <a href="../archive.html"><b>5</b>分类</a>
+    <span class="stats-row__divider" aria-hidden="true"></span>
+    <a href="../tags.html"><b>17</b>标签</a>
   </div>
-
-  <div class="m3-card m3-card--outlined">
-    <div class="widget__head"><span class="accent-bar"></span>分类</div>
-    <div class="tag-cloud"><a class="m3-chip" href="../archive.html?category=%E8%AE%B0%E5%BD%95">记录<span class="m3-chip__badge">1</span></a><a class="m3-chip" href="../archive.html?category=%E9%9A%8F%E7%AC%94">随笔<span class="m3-chip__badge">2</span></a><a class="m3-chip" href="../archive.html?category=%E6%8A%80%E6%9C%AF">技术<span class="m3-chip__badge">1</span></a><a class="m3-chip" href="../archive.html?category=%E4%BA%8C%E6%AC%A1%E5%85%83">二次元<span class="m3-chip__badge">1</span></a><a class="m3-chip" href="../archive.html?category=%E6%8C%87%E5%8D%97">指南<span class="m3-chip__badge">1</span></a></div>
-  </div>
-
-  <div class="m3-card m3-card--outlined">
-    <div class="widget__head"><span class="accent-bar"></span>标签</div>
-    <div class="tag-cloud"><a class="m3-chip m3-chip--tonal" href="../archive.html?tag=CSS" data-filter-key="CSS">CSS<span class="m3-chip__badge">1</span></a><a class="m3-chip m3-chip--tonal" href="../archive.html?tag=GitHub%20Pages" data-filter-key="GitHub Pages">GitHub Pages<span class="m3-chip__badge">1</span></a><a class="m3-chip m3-chip--tonal" href="../archive.html?tag=Markdown" data-filter-key="Markdown">Markdown<span class="m3-chip__badge">1</span></a><a class="m3-chip m3-chip--tonal" href="../archive.html?tag=Material%203" data-filter-key="Material 3">Material 3<span class="m3-chip__badge">1</span></a><a class="m3-chip m3-chip--tonal" href="../archive.html?tag=%E5%86%99%E4%BD%9C" data-filter-key="写作">写作<span class="m3-chip__badge">1</span></a><a class="m3-chip m3-chip--tonal" href="../archive.html?tag=%E5%8A%A8%E7%94%BB" data-filter-key="动画">动画<span class="m3-chip__badge">1</span></a><a class="m3-chip m3-chip--tonal" href="../archive.html?tag=%E5%B7%9D%E7%AB%AF%E5%BA%B7%E6%88%90" data-filter-key="川端康成">川端康成<span class="m3-chip__badge">1</span></a><a class="m3-chip m3-chip--tonal" href="../archive.html?tag=%E5%BB%BA%E7%AB%99" data-filter-key="建站">建站<span class="m3-chip__badge">1</span></a><a class="m3-chip m3-chip--tonal" href="../archive.html?tag=%E6%8E%92%E7%89%88" data-filter-key="排版">排版<span class="m3-chip__badge">1</span></a><a class="m3-chip m3-chip--tonal" href="../archive.html?tag=%E6%91%84%E5%BD%B1" data-filter-key="摄影">摄影<span class="m3-chip__badge">1</span></a><a class="m3-chip m3-chip--tonal" href="../archive.html?tag=%E6%97%A5%E6%9C%AC%E6%96%87%E5%AD%A6" data-filter-key="日本文学">日本文学<span class="m3-chip__badge">1</span></a><a class="m3-chip m3-chip--tonal" href="../archive.html?tag=%E7%94%9F%E6%B4%BB" data-filter-key="生活">生活<span class="m3-chip__badge">1</span></a><a class="m3-chip m3-chip--tonal" href="../archive.html?tag=%E8%AE%BE%E8%AE%A1" data-filter-key="设计">设计<span class="m3-chip__badge">1</span></a><a class="m3-chip m3-chip--tonal" href="../archive.html?tag=%E8%AF%BB%E4%B9%A6" data-filter-key="读书">读书<span class="m3-chip__badge">1</span></a><a class="m3-chip m3-chip--tonal" href="../archive.html?tag=%E8%BF%BD%E7%95%AA" data-filter-key="追番">追番<span class="m3-chip__badge">1</span></a><a class="m3-chip m3-chip--tonal" href="../archive.html?tag=%E9%9A%8F%E7%AC%94" data-filter-key="随笔">随笔<span class="m3-chip__badge">1</span></a><a class="m3-chip m3-chip--tonal" href="../archive.html?tag=%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2" data-filter-key="静态博客">静态博客<span class="m3-chip__badge">1</span></a></div>
+  <nav class="sider-nav" aria-label="站点导航">
+    <a class="sider-nav__btn" href="../index.html"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 3 4 9v12h5v-6h6v6h5V9l-8-6Z"/></svg>首页</a><a class="sider-nav__btn" href="../archive.html"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M4 3h16a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Zm1 6h14v11a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V9Zm4 2v2h6v-2H9Z"/></svg>归档</a><a class="sider-nav__btn" href="../tags.html"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="m21.41 11.58-9-9A2 2 0 0 0 11 2H4a2 2 0 0 0-2 2v7c0 .53.21 1.04.59 1.42l9 9c.36.36.86.58 1.41.58s1.05-.22 1.41-.59l7-7A2 2 0 0 0 23 13c0-.55-.22-1.05-.59-1.42ZM6.5 8A1.5 1.5 0 1 1 8 6.5 1.5 1.5 0 0 1 6.5 8Z"/></svg>标签</a><a class="sider-nav__btn" href="../moments.html"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25ZM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83Z"/></svg>瞬间</a><a class="sider-nav__btn" href="../friends.html"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M9 11a4 4 0 1 0-4-4 4 4 0 0 0 4 4Zm8 1a3 3 0 1 0-3-3 3 3 0 0 0 3 3ZM9 13c-3.3 0-8 1.7-8 5v3h16v-3c0-3.3-4.7-5-8-5Zm8 1c-.7 0-1.5.1-2.3.2A5.9 5.9 0 0 1 17 18v1h6v-2c0-1.8-3.1-3-6-3Z"/></svg>友链</a><a class="sider-nav__btn" href="../about.html"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm0 5a1.5 1.5 0 1 1-1.5 1.5A1.5 1.5 0 0 1 12 7Zm2 10h-4v-2h1v-3h-1v-2h2a1 1 0 0 1 1 1v4h1Z"/></svg>关于</a>
+  </nav>
+  <div class="toc-card" id="toc-card">
+    <div class="toc-card__title"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M4 3h16a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Zm1 6h14v11a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V9Zm4 2v2h6v-2H9Z"/></svg>目录</div>
+    <nav aria-label="文章目录"><ol class="toc"><li><a href="#why">为什么不直接写十六进制</a><li><a href="#m3">Material 3 的色调体系</a><li><a href="#try">自己试一下</a></ol></nav>
   </div>
 </aside>
-    <main class="layout__main" id="main">
-<nav aria-label="面包屑" style="margin:1.25rem 0 .25rem;font-size:.85rem;color:var(--on-surface-variant)">
-    <a href="../index.html" style="color:inherit">首页</a> ·
-    <a href="../archive.html?category=%E6%8A%80%E6%9C%AF" style="color:inherit">技术</a> ·
-    <span>给博客换个颜色：一个变量改主题色</span>
-  </nav>
-  <article class="article">
-    <header class="article__header">
-      <h1 class="article__title">给博客换个颜色：一个变量改主题色</h1>
-      <div class="article__meta">
-        <span class="meta-item"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M7 2v2H5a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2V2h-2v2H9V2H7Zm12 8v9H5v-9h14Z"/></svg><time datetime="2026-08-28">2026 年 8 月28 日</time></span>
-        <span class="meta-item"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M10 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-8l-2-2Z"/></svg>技术</span>
-        <span class="meta-item"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm1 11h-4v-2h2V7h2Z"/></svg>约 5 分钟</span>
-        
-      </div>
-      <div class="post-card__tags" style="margin-top:.9rem"><a class="m3-chip m3-chip--tonal" href="../archive.html?tag=CSS">#CSS</a><a class="m3-chip m3-chip--tonal" href="../archive.html?tag=%E8%AE%BE%E8%AE%A1">#设计</a><a class="m3-chip m3-chip--tonal" href="../archive.html?tag=Material%203">#Material 3</a></div>
-    </header>
-    <div class="article__cover"><img src="../assets/img/cover-d.jpg" alt="" width="1280" height="720"></div>
+  </div>
+  <div class="content-col">
+    <main class="content-card" id="main">
+<article class="article">
     <div class="prose">
 <p>这个博客的所有颜色都来自一个数字：</p>
 
@@ -186,18 +154,20 @@ if(localStorage.getItem('lqy-texture')==='off')r.setAttribute('data-texture','of
 
 <p>说到底，配色系统的价值不在于“颜色多好看”，而在于<strong>你不用再为颜色做决定</strong>。决定一次，之后所有地方自动一致。</p>
 </div>
-    <div class="article__footer">
-      <div style="font-size:.86rem;color:var(--on-surface-variant)">
-        写于 2026 年 8 月28 日 · 本文地址 <code style="font-size:.8rem">https://liu-qinyan.github.io/LQY/posts/theme-hue.html</code>
+    <div class="pic__tags" style="margin-top:1.2rem"><a class="badge" href="../archive.html?tag=CSS"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M2.53 11.13 11.1 2.6A2 2 0 0 1 12.5 2H20a2 2 0 0 1 2 2v7.5a2 2 0 0 1-.59 1.42l-8.55 8.55a2 2 0 0 1-2.83 0l-7.5-7.5a2 2 0 0 1 0-2.84ZM7.5 8A1.5 1.5 0 1 0 9 6.5 1.5 1.5 0 0 0 7.5 8Z"/></svg> CSS</a><a class="badge" href="../archive.html?tag=%E8%AE%BE%E8%AE%A1"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M2.53 11.13 11.1 2.6A2 2 0 0 1 12.5 2H20a2 2 0 0 1 2 2v7.5a2 2 0 0 1-.59 1.42l-8.55 8.55a2 2 0 0 1-2.83 0l-7.5-7.5a2 2 0 0 1 0-2.84ZM7.5 8A1.5 1.5 0 1 0 9 6.5 1.5 1.5 0 0 0 7.5 8Z"/></svg> 设计</a><a class="badge" href="../archive.html?tag=Material%203"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M2.53 11.13 11.1 2.6A2 2 0 0 1 12.5 2H20a2 2 0 0 1 2 2v7.5a2 2 0 0 1-.59 1.42l-8.55 8.55a2 2 0 0 1-2.83 0l-7.5-7.5a2 2 0 0 1 0-2.84ZM7.5 8A1.5 1.5 0 1 0 9 6.5 1.5 1.5 0 0 0 7.5 8Z"/></svg> Material 3</a></div>
+    <div class="post-footer">
+      <div>
+        写于 2026 年 8 月28 日 · 转载请注明出处<br>
+        <code>本文地址 https://liu-qinyan.github.io/LQY/posts/theme-hue.html</code>
       </div>
-      <button class="m3-button m3-button--outlined" type="button" id="copy-link" data-url="https://liu-qinyan.github.io/LQY/posts/theme-hue.html">
+      <button class="btn-shoka" type="button" id="copy-link" data-url="https://liu-qinyan.github.io/LQY/posts/theme-hue.html">
         <svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7ZM19 19H5V5h7V3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7h-2v7Z"/></svg>复制链接
       </button>
     </div>
-    <div class="article__nav"><a class="nav-prev" href="anime-2026-summer.html"><small>更新的一篇</small><strong>2026 夏番追番小记</strong></a><a class="nav-next" href="autumn-walk.html"><small>更早的一篇</small><strong>秋日散步，与一枚落叶</strong></a></div>
+    <div class="article__nav"><a class="article-nav-card" href="anime-2026-summer.html"><small>← 更新一篇</small><strong>2026 夏番追番小记</strong></a><a class="article-nav-card article-nav-card--next" href="autumn-walk.html"><small>更早一篇 →</small><strong>秋日散步，与一枚落叶</strong></a></div>
   </article>
   <section class="comments" aria-label="评论">
-    <h2 class="section-head"><span class="accent-bar"></span>说点什么吧</h2>
+    <div class="divider">说点什么吧</div>
     <p class="comments__hint">评论使用 GitHub 账号登录（由 giscus 提供，评论会保存在本仓库的 Discussions 里）。</p>
     <script src="https://giscus.app/client.js"
       data-repo="liu-qinyan/LQY"
@@ -216,96 +186,69 @@ if(localStorage.getItem('lqy-texture')==='off')r.setAttribute('data-texture','of
       async></script>
     <noscript><p class="comments__hint">查看评论需要启用 JavaScript。</p></noscript>
   </section>
-  <section style="margin-top:1.5rem" aria-label="相关推荐">
-    <h2 class="section-head"><span class="accent-bar"></span>也许还想看</h2>
-    <ul class="post-list">
-      <li class="post-card post-card--with-cover" data-filter-tags="建站|GitHub Pages|静态博客" data-filter-category="记录">
-  <a class="post-card__cover" href="../posts/hello-world.html" tabindex="-1" aria-hidden="true">
-        <img src="../assets/img/cover-a.jpg" alt="" loading="lazy" decoding="async" width="1280" height="720">
+  <div class="divider">也许还想看</div>
+  <ul class="post-list">
+    <li class="post-item-card reveal" data-filter-tags="建站|GitHub Pages|静态博客" data-filter-category="记录">
+  <a class="pic__cover" href="../posts/hello-world.html" tabindex="-1" aria-hidden="true">
+        <img class="pic__img" src="../assets/img/cover-a.jpg" alt="" loading="lazy" decoding="async" width="1280" height="720">
       </a>
-  <article class="post-card__body">
-    <h3 class="post-card__title"><span class="pin-badge">置顶</span> <a href="../posts/hello-world.html">建站记：在 GitHub Pages 上安一个家</a></h3>
-    <p class="post-card__desc">从零把一个博客钉在一个固定链接上：为什么选静态站，模板参考了谁，以及我在这两天里踩过的坑。</p>
-    <div class="post-card__tags"><a class="m3-chip m3-chip--tonal" href="../archive.html?tag=%E5%BB%BA%E7%AB%99">#建站</a><a class="m3-chip m3-chip--tonal" href="../archive.html?tag=GitHub%20Pages">#GitHub Pages</a><a class="m3-chip m3-chip--tonal" href="../archive.html?tag=%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2">#静态博客</a></div>
-    <div class="post-card__meta">
-      <span class="meta-item"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M7 2v2H5a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2V2h-2v2H9V2H7Zm12 8v9H5v-9h14Z"/></svg><time datetime="2026-09-14">2026 年 9 月14 日</time></span>
-      <span class="meta-item"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M10 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-8l-2-2Z"/></svg><a href="../archive.html?category=%E8%AE%B0%E5%BD%95" style="color:inherit">记录</a></span>
-      <span class="meta-item"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm1 11h-4v-2h2V7h2Z"/></svg>7 分钟</span>
+  <div class="pic__body">
+    <div class="pic__meta">
+      <a href="../archive.html?category=%E8%AE%B0%E5%BD%95"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M14.4 6 14 4H5v17h2v-7h5.6l.4 2h7V6h-5.6Z"/></svg> 记录</a>
+      <span><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M7 2v2H5a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2V2h-2v2H9V2H7Zm12 8v9H5v-9h14Z"/></svg><time datetime="2026-09-14">2026 年 9 月14 日</time></span>
+      <span><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25ZM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83Z"/></svg> 1145 字</span>
+      <span><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm1 11h-4v-2h2V7h2Z"/></svg> 7 分钟</span>
     </div>
-  </article>
-</li><li class="post-card post-card--with-cover" data-filter-tags="Markdown|写作|排版" data-filter-category="指南">
-  <a class="post-card__cover" href="../posts/markdown-guide.html" tabindex="-1" aria-hidden="true">
-        <img src="../assets/img/cover-b.jpg" alt="" loading="lazy" decoding="async" width="1280" height="720">
+    <h2 class="pic__title"><a class="badge badge--pin" href="#top-pin">置顶</a> <a href="../posts/hello-world.html">建站记：在 GitHub Pages 上安一个家</a></h2>
+    <p class="pic__desc">从零把一个博客钉在一个固定链接上：为什么选静态站，模板参考了谁，以及我在这两天里踩过的坑。</p>
+    <div class="pic__tags"><a class="badge" href="../archive.html?tag=%E5%BB%BA%E7%AB%99"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M2.53 11.13 11.1 2.6A2 2 0 0 1 12.5 2H20a2 2 0 0 1 2 2v7.5a2 2 0 0 1-.59 1.42l-8.55 8.55a2 2 0 0 1-2.83 0l-7.5-7.5a2 2 0 0 1 0-2.84ZM7.5 8A1.5 1.5 0 1 0 9 6.5 1.5 1.5 0 0 0 7.5 8Z"/></svg> 建站</a><a class="badge" href="../archive.html?tag=GitHub%20Pages"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M2.53 11.13 11.1 2.6A2 2 0 0 1 12.5 2H20a2 2 0 0 1 2 2v7.5a2 2 0 0 1-.59 1.42l-8.55 8.55a2 2 0 0 1-2.83 0l-7.5-7.5a2 2 0 0 1 0-2.84ZM7.5 8A1.5 1.5 0 1 0 9 6.5 1.5 1.5 0 0 0 7.5 8Z"/></svg> GitHub Pages</a><a class="badge" href="../archive.html?tag=%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M2.53 11.13 11.1 2.6A2 2 0 0 1 12.5 2H20a2 2 0 0 1 2 2v7.5a2 2 0 0 1-.59 1.42l-8.55 8.55a2 2 0 0 1-2.83 0l-7.5-7.5a2 2 0 0 1 0-2.84ZM7.5 8A1.5 1.5 0 1 0 9 6.5 1.5 1.5 0 0 0 7.5 8Z"/></svg> 静态博客</a></div>
+  </div>
+  <a class="pic__more" href="../posts/hello-world.html" aria-label="继续阅读：建站记：在 GitHub Pages 上安一个家">more...</a>
+</li><li class="post-item-card reveal" data-filter-tags="Markdown|写作|排版" data-filter-category="指南">
+  <a class="pic__cover" href="../posts/markdown-guide.html" tabindex="-1" aria-hidden="true">
+        <img class="pic__img" src="../assets/img/cover-b.jpg" alt="" loading="lazy" decoding="async" width="1280" height="720">
       </a>
-  <article class="post-card__body">
-    <h3 class="post-card__title"><a href="../posts/markdown-guide.html">Markdown 排版指南：本站支持的全部写法</a></h3>
-    <p class="post-card__desc">标题、强调、列表、引用、代码、表格、提示框、图片——把这篇当作样式速查表，写文章时对照着用就好。</p>
-    <div class="post-card__tags"><a class="m3-chip m3-chip--tonal" href="../archive.html?tag=Markdown">#Markdown</a><a class="m3-chip m3-chip--tonal" href="../archive.html?tag=%E5%86%99%E4%BD%9C">#写作</a><a class="m3-chip m3-chip--tonal" href="../archive.html?tag=%E6%8E%92%E7%89%88">#排版</a></div>
-    <div class="post-card__meta">
-      <span class="meta-item"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M7 2v2H5a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2V2h-2v2H9V2H7Zm12 8v9H5v-9h14Z"/></svg><time datetime="2026-09-12">2026 年 9 月12 日</time></span>
-      <span class="meta-item"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M10 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-8l-2-2Z"/></svg><a href="../archive.html?category=%E6%8C%87%E5%8D%97" style="color:inherit">指南</a></span>
-      <span class="meta-item"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm1 11h-4v-2h2V7h2Z"/></svg>6 分钟</span>
+  <div class="pic__body">
+    <div class="pic__meta">
+      <a href="../archive.html?category=%E6%8C%87%E5%8D%97"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M14.4 6 14 4H5v17h2v-7h5.6l.4 2h7V6h-5.6Z"/></svg> 指南</a>
+      <span><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M7 2v2H5a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-2V2h-2v2H9V2H7Zm12 8v9H5v-9h14Z"/></svg><time datetime="2026-09-12">2026 年 9 月12 日</time></span>
+      <span><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25ZM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83Z"/></svg> 1061 字</span>
+      <span><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm1 11h-4v-2h2V7h2Z"/></svg> 6 分钟</span>
     </div>
-  </article>
+    <h2 class="pic__title"><a href="../posts/markdown-guide.html">Markdown 排版指南：本站支持的全部写法</a></h2>
+    <p class="pic__desc">标题、强调、列表、引用、代码、表格、提示框、图片——把这篇当作样式速查表，写文章时对照着用就好。</p>
+    <div class="pic__tags"><a class="badge" href="../archive.html?tag=Markdown"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M2.53 11.13 11.1 2.6A2 2 0 0 1 12.5 2H20a2 2 0 0 1 2 2v7.5a2 2 0 0 1-.59 1.42l-8.55 8.55a2 2 0 0 1-2.83 0l-7.5-7.5a2 2 0 0 1 0-2.84ZM7.5 8A1.5 1.5 0 1 0 9 6.5 1.5 1.5 0 0 0 7.5 8Z"/></svg> Markdown</a><a class="badge" href="../archive.html?tag=%E5%86%99%E4%BD%9C"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M2.53 11.13 11.1 2.6A2 2 0 0 1 12.5 2H20a2 2 0 0 1 2 2v7.5a2 2 0 0 1-.59 1.42l-8.55 8.55a2 2 0 0 1-2.83 0l-7.5-7.5a2 2 0 0 1 0-2.84ZM7.5 8A1.5 1.5 0 1 0 9 6.5 1.5 1.5 0 0 0 7.5 8Z"/></svg> 写作</a><a class="badge" href="../archive.html?tag=%E6%8E%92%E7%89%88"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M2.53 11.13 11.1 2.6A2 2 0 0 1 12.5 2H20a2 2 0 0 1 2 2v7.5a2 2 0 0 1-.59 1.42l-8.55 8.55a2 2 0 0 1-2.83 0l-7.5-7.5a2 2 0 0 1 0-2.84ZM7.5 8A1.5 1.5 0 1 0 9 6.5 1.5 1.5 0 0 0 7.5 8Z"/></svg> 排版</a></div>
+  </div>
+  <a class="pic__more" href="../posts/markdown-guide.html" aria-label="继续阅读：Markdown 排版指南：本站支持的全部写法">more...</a>
 </li>
-    </ul>
-  </section>
+  </ul>
     </main>
-    <aside class="layout__aside" aria-label="辅助信息">
-  <div class="aside-toc" style="display:grid;gap:1rem">
-  <div class="m3-card m3-card--outlined" id="toc-card">
-    <div class="widget__head"><span class="accent-bar"></span>目录</div>
-    <nav aria-label="文章目录"><ol class="toc"><li><a href="#why">为什么不直接写十六进制</a><li><a href="#m3">Material 3 的色调体系</a><li><a href="#try">自己试一下</a></ol></nav>
-  </div>
-  <div class="m3-card m3-card--outlined">
-    <div class="widget__head"><span class="accent-bar"></span>站点信息</div>
-    <ul class="footer__links" style="font-size:.85rem">
-      <li>建站：2026 年 9 月14 日</li>
-      <li>已运行：<strong>1</strong> 天</li>
-      <li>文章：<strong>6</strong> 篇 · 标签 <strong>17</strong> 个</li>
-      <li>最近更新：2026 年 9 月14 日</li>
-      <li>托管：GitHub Pages</li>
-    </ul>
-  </div>
-  <div class="m3-card m3-card--outlined">
-    <div class="widget__head"><span class="accent-bar"></span>最新文章</div>
-    <ul class="archive-list"><li class="archive-item"><a href="../posts/hello-world.html">建站记：在 GitHub Pages 上安一个家</a><span class="dots"></span><time datetime="2026-09-14">09-14</time></li><li class="archive-item"><a href="../posts/markdown-guide.html">Markdown 排版指南：本站支持的全部写法</a><span class="dots"></span><time datetime="2026-09-12">09-12</time></li><li class="archive-item"><a href="../posts/snow-country.html">读《雪国》：徒劳之美的余韵</a><span class="dots"></span><time datetime="2026-09-08">09-08</time></li><li class="archive-item"><a href="../posts/anime-2026-summer.html">2026 夏番追番小记</a><span class="dots"></span><time datetime="2026-09-03">09-03</time></li><li class="archive-item"><a href="../posts/theme-hue.html">给博客换个颜色：一个变量改主题色</a><span class="dots"></span><time datetime="2026-08-28">08-28</time></li></ul>
-  </div>
-  </div>
-</aside>
   </div>
 </div>
-<footer class="footer">
-  <div class="footer__inner">
-    <div>
-      <div class="footer__brand">
-        <span class="navbar__logo" aria-hidden="true">柳</span>
-        <span>柳卿烟</span>
-      </div>
-      <p class="footer__desc">柳卿烟的个人博客 —— 记录、随笔、技术与二次元的小天地。</p>
-      <div class="footer__social" style="margin-top:.9rem">
-        <a class="icon-btn" href="https://github.com/liu-qinyan" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 2A10 10 0 0 0 8.84 21.5c.5.08.66-.23.66-.5v-1.7c-2.78.6-3.37-1.34-3.37-1.34-.45-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.9 1.53 2.35 1.09 2.92.83.09-.65.35-1.09.63-1.34-2.22-.25-4.56-1.11-4.56-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02a9.6 9.6 0 0 1 5 0c1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85v2.74c0 .27.16.59.67.5A10 10 0 0 0 12 2Z"/></svg></a>
-        <a class="icon-btn" href="mailto:629193513@qq.com" aria-label="邮箱"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Zm0 4-8 5-8-5V6l8 5 8-5v2Z"/></svg></a>
-        <a class="icon-btn" href="../feed.xml" aria-label="RSS"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M6.18 15.64a2.18 2.18 0 1 1 0 4.36 2.18 2.18 0 0 1 0-4.36ZM4 4.44A15.56 15.56 0 0 1 19.56 20h-2.83A12.73 12.73 0 0 0 4 7.27V4.44Zm0 5.66a9.9 9.9 0 0 1 9.9 9.9h-2.83A7.07 7.07 0 0 0 4 12.93V10.1Z"/></svg></a>
-      </div>
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <div class="footer-stats">
+      <span title="全站字数"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25ZM20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83Z"/></svg><b>5157</b> 字</span>
+      <span class="footer-stats__divider" aria-hidden="true"></span>
+      <span title="全部文章读完约需"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm1 11h-4v-2h2V7h2Z"/></svg><b>36</b> 小时</span>
+      <span class="footer-stats__divider" aria-hidden="true"></span>
+      <span title="文章数"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M4 3h16a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Zm1 6h14v11a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V9Zm4 2v2h6v-2H9Z"/></svg><b>6</b> 篇</span>
     </div>
-    <div>
-      <h3>导航</h3>
-      <ul class="footer__links"><li><a href="../index.html">首页</a></li><li><a href="../archive.html">归档</a></li><li><a href="../tags.html">标签</a></li><li><a href="../moments.html">瞬间</a></li><li><a href="../friends.html">友链</a></li><li><a href="../about.html">关于</a></li></ul>
+    <div class="footer-copy">
+      <span>©</span><span>2026</span>
+      <svg class="footer-sakura" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M12 2c.4 2.6 1.6 4.4 3.4 5.2 1 .5 2.2.6 3.6.4-.9 1.2-1.4 2.4-1.4 3.5 0 1.8 1 3.4 2.6 4.6-1.7.4-3 .1-4.1-.5-.5-.3-1-.7-1.4-1.1.2 1.6-.1 3-1 4-1.1 1.2-2.9 1.7-4.7 1.5.6-1.4.7-2.7.3-3.8-.3-.9-.9-1.6-1.8-2.2-1.3 1-2.7 1.4-4.1 1.1.8-1.3 1.9-2.2 3-2.6-.9-.6-1.6-1.4-1.9-2.4-.4-1.5 0-3.2 1.1-4.6.7 1.3 1.7 2.2 2.8 2.5 1.1.4 2.3.3 3.6-.3C10.9 6 11.3 4 12 2Z" opacity=".9"/></svg>
+      <span>柳卿烟</span>
     </div>
-    <div>
-      <h3>更多</h3>
-      <ul class="footer__links">
-        <li><a href="../feed.xml">RSS 订阅</a></li>
-        <li><a href="../sitemap.xml">站点地图</a></li>
-        <li><a href="https://github.com/liu-qinyan/LQY" target="_blank" rel="noopener">本站源码</a></li>
-        <li><a href="../about.html">关于我</a></li>
-      </ul>
+    
+    <div class="footer-powered">
+      <a href="https://github.com/liu-qinyan/LQY" target="_blank" rel="noopener">本站源码</a>
+      <span>·</span>
+      <span>Powered by</span>
+      <a href="https://github.com/cosZone/astro-koharu" target="_blank" rel="noopener">astro-koharu</a>
+      <span>·</span>
+      <span>Inspired by</span>
+      <a href="https://github.com/amehime/hexo-theme-shoka" target="_blank" rel="noopener">Shoka</a>
     </div>
-  </div>
-  <div class="footer__bottom">
-    <span>© <span data-year>2026</span> 柳卿烟 · 用心写字，慢慢更新</span>
-    <span>共 6 篇文章 · 托管于 GitHub Pages </span>
   </div>
 </footer>
 <div class="search-overlay" id="search-overlay" data-index="../search.json" role="dialog" aria-modal="true" aria-label="站内搜索">
