@@ -35,7 +35,7 @@
 
   function currentTheme() {
     var s = read(LS.theme);
-    return THEMES.indexOf(s) >= 0 ? s : "system";
+    return THEMES.indexOf(s) >= 0 ? s : "dark";
   }
   function resolvedTheme(pref) {
     if (pref !== "system") return pref;
@@ -75,6 +75,7 @@
   /* ---------- 2. 色相（主题色）切换 ---------- */
 
   var HUES = [
+    { v: 252, name: "靛蓝" },
     { v: 315, name: "樱粉" },
     { v: 350, name: "绯红" },
     { v: 30, name: "暖橘" },
@@ -487,6 +488,28 @@
     }
     requestAnimationFrame(frame);
   })();
+
+  /* ---------- 13. 首页章节导航高亮 ---------- */
+
+  var rail = document.querySelector(".home-rail");
+  if (rail && "IntersectionObserver" in window) {
+    var railLinks = rail.querySelectorAll("[data-rail]");
+    var sections = [];
+    railLinks.forEach(function (a) {
+      var target = document.querySelector(a.getAttribute("href"));
+      if (target) sections.push({ el: target, link: a });
+    });
+    var spy = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        railLinks.forEach(function (a) { a.classList.remove("is-active"); });
+        sections.forEach(function (s) {
+          if (s.el === en.target) s.link.classList.add("is-active");
+        });
+      });
+    }, { rootMargin: "-40% 0px -55% 0px" });
+    sections.forEach(function (s) { spy.observe(s.el); });
+  }
 
   /* ---------- 10. 页脚年份 ---------- */
 
