@@ -393,6 +393,101 @@
   }
   applyFilter();
 
+  /* ---------- 11. 评论（giscus）主题联动 ---------- */
+
+  function giscusTheme() {
+    return root.getAttribute("data-theme") === "dark" ? "dark" : "light";
+  }
+  function syncGiscus() {
+    var frame = document.querySelector("iframe.giscus-frame");
+    if (!frame) return;
+    try {
+      frame.contentWindow.postMessage(
+        { giscus: { setConfig: { theme: giscusTheme() } } }, "https://giscus.app");
+    } catch (e) { /* iframe 就绪前可能失败，静默 */ }
+  }
+  new MutationObserver(function () { syncGiscus(); })
+    .observe(root, { attributes: true, attributeFilter: ["data-theme"] });
+  window.addEventListener("load", function () {
+    setTimeout(syncGiscus, 1200);
+    setTimeout(syncGiscus, 3200);
+  });
+
+  /* ---------- 12. 樱花飘落 ---------- */
+
+  (function () {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    var cv = document.createElement("canvas");
+    cv.id = "sakura-canvas";
+    cv.setAttribute("aria-hidden", "true");
+    document.body.appendChild(cv);
+    var ctx = cv.getContext("2d");
+    if (!ctx) return;
+    var W = 0, H = 0, petals = [], tick = 0, hue = 315;
+
+    function resize() {
+      W = cv.width = window.innerWidth;
+      H = cv.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener("resize", resize);
+
+    function Petal(init) { this.reset(init); }
+    Petal.prototype.reset = function (init) {
+      this.x = Math.random() * W;
+      this.y = init ? Math.random() * H : -24;
+      this.s = 4.5 + Math.random() * 7;
+      this.vy = 0.35 + Math.random() * 0.85;
+      this.vx = -0.35 + Math.random() * 0.7;
+      this.ph = Math.random() * Math.PI * 2;
+      this.rot = Math.random() * Math.PI * 2;
+      this.vr = (-0.5 + Math.random()) * 0.02;
+      this.o = 0.28 + Math.random() * 0.38;
+    };
+    var N = Math.min(16, Math.max(7, Math.round(window.innerWidth / 100)));
+    for (var i = 0; i < N; i++) petals.push(new Petal(true));
+
+    function readHue() {
+      var v = parseInt(getComputedStyle(document.documentElement)
+        .getPropertyValue("--h"), 10);
+      if (!isNaN(v)) hue = v;
+    }
+    readHue();
+
+    var running = true;
+    window.addEventListener("beforeprint", function () { running = false; });
+    window.addEventListener("afterprint", function () { running = true; });
+    document.addEventListener("visibilitychange", function () {
+      running = !document.hidden;
+    });
+
+    function frame() {
+      requestAnimationFrame(frame);
+      if (!running) return;
+      tick++;
+      if (tick % 90 === 0) readHue();
+      ctx.clearRect(0, 0, W, H);
+      for (var i = 0; i < petals.length; i++) {
+        var p = petals[i];
+        p.ph += 0.02;
+        p.rot += p.vr;
+        p.x += p.vx + Math.sin(p.ph) * 0.55;
+        p.y += p.vy;
+        if (p.y > H + 24 || p.x < -32 || p.x > W + 32) p.reset(false);
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rot);
+        ctx.globalAlpha = p.o;
+        ctx.fillStyle = "hsl(" + hue + " 78% 80%)";
+        ctx.beginPath();
+        ctx.ellipse(0, 0, p.s, p.s * 0.6, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
+    }
+    requestAnimationFrame(frame);
+  })();
+
   /* ---------- 10. 页脚年份 ---------- */
 
   document.querySelectorAll("[data-year]").forEach(function (n) {

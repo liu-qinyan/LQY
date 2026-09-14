@@ -2069,3 +2069,56 @@ html[data-texture="off"] #texture-canvas {
     background: #fff;
   }
 }
+
+/* ---------- 二次元细节 & 评论区 ---------- */
+
+/* 头像：悬停时轻轻歪一下（果冻感） */
+.profile__avatar img {
+  transition: transform .35s cubic-bezier(.34, 1.56, .64, 1);
+}
+.profile__avatar:hover img,
+.profile__avatar:focus-visible img {
+  transform: rotate(-4deg) scale(1.05);
+}
+
+/* 章节标题后面缀一颗小星星 */
+.section-head::after {
+  content: "\2606";
+  margin-left: .4rem;
+  font-size: .8em;
+  color: var(--primary);
+  opacity: .7;
+  vertical-align: .08em;
+}
+
+/* 评论区 */
+.comments {
+  margin-top: 1.75rem;
+}
+.comments__hint {
+  font-size: .85rem;
+  color: var(--on-surface-variant);
+  margin: .25rem 0 .75rem;
+}
+.comments .giscus,
+.comments iframe {
+  margin-top: .35rem;
+}
+
+/* 樱花飘落画布：不挡交互、不盖弹层 */
+#sakura-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 3;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #sakura-canvas { display: none; }
+}
+
+@media print {
+  #sakura-canvas { display: none !important; }
+}
