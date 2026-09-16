@@ -3,60 +3,88 @@
   <channel>
     <title>柳卿烟</title>
     <link>https://liu-qinyan.github.io/LQY/</link>
-    <description>柳卿烟的小窝 · 一名二次元高中生的蔚蓝档案基地</description>
+    <description>柳卿烟的猫窝 · 猫羽雫单推人的二次元基地</description>
     <language>zh-CN</language>
-    <lastBuildDate>Tue, 15 Sep 2026 22:50:38 GMT</lastBuildDate>
+    <lastBuildDate>Wed, 16 Sep 2026 12:23:27 GMT</lastBuildDate>
     <item>
-      <title>阿罗娜，把白板擦一下——建站记</title>
+      <title>本命宣言：猫羽雫，以及一个 149cm 的宇宙</title>
+      <link>https://liu-qinyan.github.io/LQY/posts/neko-shizuku.html</link>
+      <guid>https://liu-qinyan.github.io/LQY/posts/neko-shizuku.html</guid>
+      <pubDate>Wed, 16 Sep 2026 00:00:00 GMT</pubDate>
+      <description></description>
+    </item>
+    <item>
+      <title>QQ飞车：漂移过弯的十六岁</title>
+      <link>https://liu-qinyan.github.io/LQY/posts/qq-speed.html</link>
+      <guid>https://liu-qinyan.github.io/LQY/posts/qq-speed.html</guid>
+      <pubDate>Wed, 16 Sep 2026 00:00:00 GMT</pubDate>
+      <description></description>
+    </item>
+    <item>
+      <title>网页游戏黄金时代博物馆（个人馆藏）</title>
+      <link>https://liu-qinyan.github.io/LQY/posts/webgame-museum.html</link>
+      <guid>https://liu-qinyan.github.io/LQY/posts/webgame-museum.html</guid>
+      <pubDate>Wed, 16 Sep 2026 00:00:00 GMT</pubDate>
+      <description></description>
+    </item>
+    <item>
+      <title>喵！开站大吉——猫窝开张日志</title>
       <link>https://liu-qinyan.github.io/LQY/posts/hello-world.html</link>
       <guid>https://liu-qinyan.github.io/LQY/posts/hello-world.html</guid>
       <pubDate>Tue, 15 Sep 2026 00:00:00 GMT</pubDate>
       <description></description>
     </item>
     <item>
-      <title>博客改造日志：从 Mizuki 到蔚蓝档案</title>
+      <title>博客搬家史 v3.0：从手写页面到猫窝</title>
       <link>https://liu-qinyan.github.io/LQY/posts/theme-migration.html</link>
       <guid>https://liu-qinyan.github.io/LQY/posts/theme-migration.html</guid>
+      <pubDate>Tue, 15 Sep 2026 00:00:00 GMT</pubDate>
+      <description></description>
+    </item>
+    <item>
+      <title>周末猫咖探店记：在现实里云吸猫</title>
+      <link>https://liu-qinyan.github.io/LQY/posts/ba-diary.html</link>
+      <guid>https://liu-qinyan.github.io/LQY/posts/ba-diary.html</guid>
       <pubDate>Mon, 14 Sep 2026 00:00:00 GMT</pubDate>
       <description></description>
     </item>
     <item>
-      <title>月考生存实录：与数学的往复运动</title>
+      <title>把月考当 Boss 战打：数学篇（含公式演示）</title>
       <link>https://liu-qinyan.github.io/LQY/posts/exam-survival.html</link>
       <guid>https://liu-qinyan.github.io/LQY/posts/exam-survival.html</guid>
       <pubDate>Sun, 13 Sep 2026 00:00:00 GMT</pubDate>
       <description></description>
     </item>
     <item>
-      <title>2026 夏季新番扫雷报告</title>
+      <title>二次元高中生存指南（血泪版）</title>
+      <link>https://liu-qinyan.github.io/LQY/posts/high-school-survival.html</link>
+      <guid>https://liu-qinyan.github.io/LQY/posts/high-school-survival.html</guid>
+      <pubDate>Sun, 13 Sep 2026 00:00:00 GMT</pubDate>
+      <description></description>
+    </item>
+    <item>
+      <title>2026 夏季番扫雷报告</title>
       <link>https://liu-qinyan.github.io/LQY/posts/anime-summer.html</link>
       <guid>https://liu-qinyan.github.io/LQY/posts/anime-summer.html</guid>
       <pubDate>Sun, 06 Sep 2026 00:00:00 GMT</pubDate>
       <description></description>
     </item>
     <item>
-      <title>总力战与抽卡忏悔录：一个高中生的 BA 日常</title>
-      <link>https://liu-qinyan.github.io/LQY/posts/ba-diary.html</link>
-      <guid>https://liu-qinyan.github.io/LQY/posts/ba-diary.html</guid>
-      <pubDate>Mon, 31 Aug 2026 00:00:00 GMT</pubDate>
-      <description></description>
-    </item>
-    <item>
-      <title>谷子收纳大作战：吧唧的秩序与混沌</title>
+      <title>成就墙：从 4399 成就到飞车段位</title>
       <link>https://liu-qinyan.github.io/LQY/posts/badge-collection.html</link>
       <guid>https://liu-qinyan.github.io/LQY/posts/badge-collection.html</guid>
       <pubDate>Mon, 17 Aug 2026 00:00:00 GMT</pubDate>
       <description></description>
     </item>
     <item>
-      <title>Markdown 实验室：把主题功能全按一遍</title>
+      <title>Markdown 实验室：猫窝设施验收报告</title>
       <link>https://liu-qinyan.github.io/LQY/posts/markdown-lab.html</link>
       <guid>https://liu-qinyan.github.io/LQY/posts/markdown-lab.html</guid>
       <pubDate>Wed, 05 Aug 2026 00:00:00 GMT</pubDate>
       <description></description>
     </item>
     <item>
-      <title>通学路歌单：七点二十分的电车上</title>
+      <title>通学路 23 分钟 BGM 清单·二次元特辑</title>
       <link>https://liu-qinyan.github.io/LQY/posts/commute-playlist.html</link>
       <guid>https://liu-qinyan.github.io/LQY/posts/commute-playlist.html</guid>
       <pubDate>Wed, 22 Jul 2026 00:00:00 GMT</pubDate>
