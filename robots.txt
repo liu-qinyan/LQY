@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://liu-qinyan.github.io/LQY/sitemap-index.xml
